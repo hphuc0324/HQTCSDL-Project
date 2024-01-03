@@ -64,11 +64,10 @@ namespace CSDLNC
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(IntermediateFunctions.getNewID("NHANVIEN", "MaNV"));
             con.Open();
 
-
-            
+            try
+            {
                 SqlCommand cmd = new SqlCommand("sp_register", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -78,11 +77,25 @@ namespace CSDLNC
                 cmd.Parameters.AddWithValue("@hoten", nameBox.Text);
                 cmd.Parameters.AddWithValue("@ngaysinh", dobBox.Text);
                 cmd.Parameters.AddWithValue("@diachi", addressBox.Text);
-                MessageBox.Show(dobBox.Text);
 
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Đăng ký thành công");
+                int row = cmd.ExecuteNonQuery();
+           
+                if (row <= 0)
+                {
+                    MessageBox.Show("Lỗi: Số điện thoại đã tồn tại\n");
+                }
+                else
+                {
+                    MessageBox.Show("Đăng ký thành công");
+                }
+                
                 con.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: Không thể đăng ký\n" + ex.ToString());
+                con.Close();
+            }
             
            
         }
