@@ -33,12 +33,12 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.timeBox = new System.Windows.Forms.TextBox();
+            this.dentistBox = new System.Windows.Forms.TextBox();
+            this.addressBox = new System.Windows.Forms.TextBox();
+            this.dobBox = new System.Windows.Forms.TextBox();
+            this.phoneBox = new System.Windows.Forms.TextBox();
+            this.patientBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -66,6 +66,7 @@
             this.label30 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.appointmentList = new System.Windows.Forms.DataGridView();
+            this.reloadBtn = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -86,6 +87,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.reloadBtn);
             this.tabPage1.Controls.Add(this.appointmentList);
             this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.panel1);
@@ -102,7 +104,7 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.PaleGreen;
-            this.button1.Location = new System.Drawing.Point(198, 494);
+            this.button1.Location = new System.Drawing.Point(19, 494);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(171, 46);
@@ -114,12 +116,12 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.PaleGreen;
-            this.panel1.Controls.Add(this.textBox6);
-            this.panel1.Controls.Add(this.textBox5);
-            this.panel1.Controls.Add(this.textBox4);
-            this.panel1.Controls.Add(this.textBox3);
-            this.panel1.Controls.Add(this.textBox2);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.timeBox);
+            this.panel1.Controls.Add(this.dentistBox);
+            this.panel1.Controls.Add(this.addressBox);
+            this.panel1.Controls.Add(this.dobBox);
+            this.panel1.Controls.Add(this.phoneBox);
+            this.panel1.Controls.Add(this.patientBox);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label6);
@@ -133,54 +135,54 @@
             this.panel1.Size = new System.Drawing.Size(426, 569);
             this.panel1.TabIndex = 2;
             // 
-            // textBox6
+            // timeBox
             // 
-            this.textBox6.Location = new System.Drawing.Point(204, 402);
-            this.textBox6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(165, 26);
-            this.textBox6.TabIndex = 12;
+            this.timeBox.Location = new System.Drawing.Point(204, 402);
+            this.timeBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.timeBox.Name = "timeBox";
+            this.timeBox.Size = new System.Drawing.Size(165, 26);
+            this.timeBox.TabIndex = 12;
             // 
-            // textBox5
+            // dentistBox
             // 
-            this.textBox5.Location = new System.Drawing.Point(204, 351);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(165, 26);
-            this.textBox5.TabIndex = 11;
+            this.dentistBox.Location = new System.Drawing.Point(204, 351);
+            this.dentistBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dentistBox.Name = "dentistBox";
+            this.dentistBox.Size = new System.Drawing.Size(165, 26);
+            this.dentistBox.TabIndex = 11;
             // 
-            // textBox4
+            // addressBox
             // 
-            this.textBox4.Location = new System.Drawing.Point(204, 302);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(165, 26);
-            this.textBox4.TabIndex = 10;
+            this.addressBox.Location = new System.Drawing.Point(204, 302);
+            this.addressBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.addressBox.Name = "addressBox";
+            this.addressBox.Size = new System.Drawing.Size(165, 26);
+            this.addressBox.TabIndex = 10;
             // 
-            // textBox3
+            // dobBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(204, 252);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(165, 26);
-            this.textBox3.TabIndex = 9;
+            this.dobBox.Location = new System.Drawing.Point(204, 252);
+            this.dobBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dobBox.Name = "dobBox";
+            this.dobBox.Size = new System.Drawing.Size(165, 26);
+            this.dobBox.TabIndex = 9;
             // 
-            // textBox2
+            // phoneBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(204, 198);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(165, 26);
-            this.textBox2.TabIndex = 8;
+            this.phoneBox.Location = new System.Drawing.Point(204, 198);
+            this.phoneBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.phoneBox.Name = "phoneBox";
+            this.phoneBox.Size = new System.Drawing.Size(165, 26);
+            this.phoneBox.TabIndex = 8;
             // 
-            // textBox1
+            // patientBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(204, 148);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(165, 26);
-            this.textBox1.TabIndex = 7;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.patientBox.Location = new System.Drawing.Point(204, 148);
+            this.patientBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.patientBox.Name = "patientBox";
+            this.patientBox.Size = new System.Drawing.Size(165, 26);
+            this.patientBox.TabIndex = 7;
+            this.patientBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label8
             // 
@@ -461,6 +463,19 @@
             this.appointmentList.RowTemplate.Height = 28;
             this.appointmentList.Size = new System.Drawing.Size(538, 415);
             this.appointmentList.TabIndex = 4;
+            this.appointmentList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.appointmentList_CellContentClick);
+            // 
+            // reloadBtn
+            // 
+            this.reloadBtn.BackColor = System.Drawing.Color.PaleGreen;
+            this.reloadBtn.Location = new System.Drawing.Point(386, 494);
+            this.reloadBtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.reloadBtn.Name = "reloadBtn";
+            this.reloadBtn.Size = new System.Drawing.Size(171, 46);
+            this.reloadBtn.TabIndex = 5;
+            this.reloadBtn.Text = "Tải lại";
+            this.reloadBtn.UseVisualStyleBackColor = false;
+            this.reloadBtn.Click += new System.EventHandler(this.reloadBtn_Click);
             // 
             // KhachHang
             // 
@@ -495,12 +510,12 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox timeBox;
+        private System.Windows.Forms.TextBox dentistBox;
+        private System.Windows.Forms.TextBox addressBox;
+        private System.Windows.Forms.TextBox dobBox;
+        private System.Windows.Forms.TextBox phoneBox;
+        private System.Windows.Forms.TextBox patientBox;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
@@ -523,5 +538,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox currDobBox;
         private System.Windows.Forms.DataGridView appointmentList;
+        private System.Windows.Forms.Button reloadBtn;
     }
 }

@@ -18,6 +18,7 @@ namespace CSDLNC
         {
             InitializeComponent();
             MaBn = id;
+            loadAppointmentList();
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -32,7 +33,8 @@ namespace CSDLNC
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            AddLichHen addAppointForm = new AddLichHen(this.MaBn);
+            IntermediateFunctions.openNewForm(this, addAppointForm);
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -122,6 +124,57 @@ namespace CSDLNC
             }
 
            
+        }
+
+        private void loadAppointmentList()
+        {
+            IntermediateFunctions.con.Open();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM LICHHEN WHERE MaBNHen = @MaBN ", IntermediateFunctions.con);
+            cmd.Parameters.AddWithValue("@MaBN", this.MaBn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            appointmentList.DataSource = dt;
+
+
+            IntermediateFunctions.con.Close();
+
+
+            IntermediateFunctions.con.Open();
+            string query = "SELECT * FROM BENHNHAN WHERE MaBN = @MaBN";
+            SqlCommand cmd2 = new SqlCommand(query, IntermediateFunctions.con);
+
+
+
+
+            cmd2.Parameters.AddWithValue("@MaBN", this.MaBn);
+
+            SqlDataReader reader = cmd2.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                reader.Read();
+
+                patientBox.Text = reader.GetString(reader.GetOrdinal("BNHoten"));
+                phoneBox.Text = reader.GetString(reader.GetOrdinal("BNSdt"));
+                DateTime ngaysinh = reader.GetDateTime(reader.GetOrdinal("BNNgaysinh"));
+                dobBox.Text = ngaysinh.ToString("MM-dd-yyyy");
+                addressBox.Text = reader.GetString(reader.GetOrdinal("BNDiachi"));
+            }
+            IntermediateFunctions.con.Close();
+        }
+
+        private void reloadBtn_Click(object sender, EventArgs e)
+        {
+            loadAppointmentList();
+        }
+
+        private void appointmentList_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            appointmentList.CurrentRow.Selected = true;
+            dentistBox.Text = appointmentList.Rows[e.RowIndex].Cells["MaNSHen"].Value.ToString();
+            timeBox.Text = appointmentList.Rows[e.RowIndex].Cells["ThoiGian"].Value.ToString();
         }
     }
 }

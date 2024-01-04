@@ -15,29 +15,16 @@ namespace CSDLNC
 {
     public partial class AddLichHen : Form
     {
-        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=CSDLNC;Integrated Security=True");
-        private string DentistIDSelected = "";
-        private void refreshDataGrid(string tableName)
-        {
-            con.Open();
-            string query = $"SELECT * FROM {tableName}";
-            if (tableName == "Dentist") query = $"SELECT UserID,SysUserName,SysUserGender FROM SystemUser WHERE LoaiTaiKhoan='dentist   '";
-            else if (tableName == "WorkingCalendar" && this.DentistIDSelected != "") query = $"SELECT DentistID,MonthBegin,MonthEnd FROM WorkingCalendar WHERE DentistID='{this.DentistIDSelected}'";
-            SqlCommand cmd = new SqlCommand(query, con);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
 
-         
+        private string patientID;
 
-
-            con.Close();
-        }
-        public AddLichHen()
+        public AddLichHen(string patientID = "")
         {
             InitializeComponent();
-            refreshDataGrid("Dentist");
-            addRoomCombox();
+            this.patientID = patientID;
+            loadPatientCombox();
+            loadDentistCombox();
+            loadCalendar();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -53,10 +40,40 @@ namespace CSDLNC
 
         }
 
-        private void addRoomCombox()
+        private void loadCombobox(string table, string field, ComboBox combox)
         {
-            
+            IntermediateFunctions.con.Open();
+            SqlCommand cmd = new SqlCommand($"SELECT * FROM {table}", IntermediateFunctions.con);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+
+                while (reader.Read())
+                {
+                    patientCombox.Items.Add(reader[field].ToString());
+
+                }
+            }
+
+            IntermediateFunctions.con.Close();
         }
+
+        private void loadPatientCombox()
+        {
+            if(this.patientID != "")
+            {
+                patientCombox.Text = this.patientID;
+            }
+            else
+            {
+                loadCombobox("BENHNHAN", "MaBN", patientCombox);
+            }
+        }
+
+        private void loadDentistCombox()
+        {
+            loadCombobox("NHASI", "MaNS", dentistCombox);
+        }
+
         private void roomCombox_SelectedIndexChanged(object sender, EventArgs e)
         {
             
@@ -64,41 +81,18 @@ namespace CSDLNC
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.Close();
+            string dentistID = dentistCombox.Text;
+            loadCalendar(dentistID);
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            calList.CurrentRow.Selected = true;
 
+            dentistCombox.Text = calList.Rows[e.RowIndex].Cells["MaNSLich"].Value.ToString();
+            appointTimeBox.Text = calList.Rows[e.RowIndex].Cells["LichTrong"].Value.ToString();
         }
-        public string getNewID(string tableName, string idField)
-        {
-            string query = $"SELECT TOP 1 * FROM {tableName} ORDER BY {idField} DESC";
-            SqlCommand cmd = new SqlCommand(query, con);
-            int result = cmd.ExecuteNonQuery();
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-                if (!reader.Read()) return "";
-
-                string currUserID = reader[idField].ToString();
-
-                int index = 0;
-                while (index < currUserID.Length && char.IsLetter(currUserID[index]))
-                {
-                    index++;
-                }
-
-                string letters = currUserID.Substring(0, index);
-
-
-                // Extract numbers (suffix)
-                string numbersString = currUserID.Substring(2);
-                int numbers = int.Parse(numbersString) + 1;
-
-                return letters + numbers;
-            }
-
-        }
+        
 
         private void label4_Click(object sender, EventArgs e)
         {
@@ -108,6 +102,34 @@ namespace CSDLNC
         private void label7_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void loadCalendar(string dentistID ="")
+        {
+            IntermediateFunctions.con.Open();
+            SqlCommand cmd;
+
+            if(dentistID == "")
+            {
+                cmd = new SqlCommand("SELECT * FROM LICHLAMVIEC");
+            }
+            else
+            {
+                cmd = new SqlCommand("SELECT * FROM LICHLAMVIEC WHERE MaNSLich=@dentistID");
+                cmd.Parameters.AddWithValue("@dentistID", dentistID);
+            }
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            calList.DataSource = dt;
+
+            IntermediateFunctions.con.Close();
+        }
+
+        private void allBtn_Click(object sender, EventArgs e)
+        {
+            loadCalendar();
         }
     }
 }
