@@ -15,11 +15,13 @@ namespace CSDLNC
     {
         private string userID = "";
         private string userType = "";
+
+        public static LoginForm Instance;
  
-        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=QLPHONGKHAMNHAKHOA2;Integrated Security=True");
         public LoginForm()
         {
             InitializeComponent();
+            Instance = this;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -59,9 +61,9 @@ namespace CSDLNC
 
         private void button1_Click(object sender, EventArgs e)
         {
-            con.Open();
+            IntermediateFunctions.con.Open();
            
-            SqlCommand cmd = new SqlCommand("sp_checkLogin", con);
+            SqlCommand cmd = new SqlCommand("sp_checkLogin", IntermediateFunctions.con);
             cmd.CommandType = CommandType.StoredProcedure;
 
             SqlParameter typePara = new SqlParameter("@type", SqlDbType.VarChar, 5);
@@ -77,26 +79,27 @@ namespace CSDLNC
 
             userID = userIdPara.Value.ToString();
             userType = typePara.Value.ToString();
+            IntermediateFunctions.con.Close();
 
-            if(userID != "" && userType != "")
+            if (userID != "" && userType != "")
             {
                 MessageBox.Show("Đăng nhập thành công");
+                //đăng nhập vào login của SQL
+                matchUserForm(userType, userID);
             }
             else
             {
                 MessageBox.Show("Sai mật khẩu hoặc tài khoản");
             }
 
-    
 
-            MessageBox.Show(userID + " " + userType);
-
-            con.Close();
+           
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Close();          
+            RegisterForm registerForm = new RegisterForm();
+            IntermediateFunctions.openNewForm(this, registerForm);      
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -107,6 +110,32 @@ namespace CSDLNC
         private void button4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void matchUserForm(string type, string id)
+        {
+            switch (type)
+            {
+                case "BN":
+                    KhachHang formKhachHang = new KhachHang(id);
+                    IntermediateFunctions.openNewForm(this, formKhachHang);
+                    break;
+                case "NV":
+                    NhanVien formNhanVien = new NhanVien();
+                    IntermediateFunctions.openNewForm(this, formNhanVien);
+                    break;
+                case "NS":
+                    Nhasi formNhasi = new Nhasi();
+                    IntermediateFunctions.openNewForm(this, formNhasi);
+                    break;
+                case "QTV":
+                    QuanTriVien formQuanTriVien = new QuanTriVien();
+                    IntermediateFunctions.openNewForm(this, formQuanTriVien);
+                    break;
+                default:
+                    MessageBox.Show("Lỗi: Không tìm được loại tài khoản tương ứng");
+                    break;
+            }
         }
     }
 }

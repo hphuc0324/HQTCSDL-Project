@@ -12,7 +12,7 @@ namespace CSDLNC
 {
     class IntermediateFunctions
     {
-        static SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=QLPHONGKHAMNHAKHOA2;Integrated Security=True");
+        public static SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=QLPHONGKHAMNHAKHOA2;Integrated Security=True");
         
         public static string getNewID(string table, string idField)
         {
@@ -76,6 +76,13 @@ namespace CSDLNC
                 default:
                     return "";
             }
+        }
+
+        public static void openNewForm(Form oldForm, Form newForm)
+        {
+            oldForm.Hide();
+            newForm.ShowDialog();
+            oldForm.Close();
         }
     }
 }
