@@ -184,7 +184,6 @@ C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.exe
 C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.pdb
 C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.AddLichHen.resources
 C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.RegisterForm.resources
-C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.Form1.resources
 C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.KhachHang.resources
 C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.NhanVien.resources
 C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.Nhasi.resources
@@ -199,3 +198,4 @@ C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\bin\Debug\CSDLNC.exe
 C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\bin\Debug\CSDLNC.pdb
 C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.exe.manifest
 C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.application
+C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.LoginForm.resources

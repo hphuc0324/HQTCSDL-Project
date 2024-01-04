@@ -79,10 +79,10 @@ namespace CSDLNC
                 cmd.Parameters.AddWithValue("@diachi", addressBox.Text);
 
                 int row = cmd.ExecuteNonQuery();
-           
+
                 if (row <= 0)
                 {
-                    MessageBox.Show("Lỗi: Số điện thoại đã tồn tại\n");
+                    MessageBox.Show("Lỗi: Số điện thoại đã tồn tại hoặc có thông tin bị thiếu\n");
                 }
                 else
                 {
@@ -97,6 +97,13 @@ namespace CSDLNC
                 con.Close();
             }
             
+           
+        }
+
+        private void loginBtn_Click(object sender, EventArgs e)
+        {
+            LoginForm loginForm = new LoginForm();
+            loginForm.Show();
            
         }
     }

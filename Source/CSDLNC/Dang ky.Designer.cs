@@ -46,6 +46,7 @@
             this.passwordBox = new System.Windows.Forms.TextBox();
             this.addressBox = new System.Windows.Forms.TextBox();
             this.dobBox = new System.Windows.Forms.TextBox();
+            this.loginBtn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -86,7 +87,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(477, 401);
+            this.button3.Location = new System.Drawing.Point(416, 401);
             this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(119, 68);
@@ -97,7 +98,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(657, 401);
+            this.button2.Location = new System.Drawing.Point(769, 401);
             this.button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(119, 68);
@@ -224,11 +225,23 @@
             this.dobBox.Size = new System.Drawing.Size(240, 26);
             this.dobBox.TabIndex = 4;
             // 
+            // loginBtn
+            // 
+            this.loginBtn.Location = new System.Drawing.Point(591, 401);
+            this.loginBtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.loginBtn.Name = "loginBtn";
+            this.loginBtn.Size = new System.Drawing.Size(119, 68);
+            this.loginBtn.TabIndex = 25;
+            this.loginBtn.Text = "Đăng nhập";
+            this.loginBtn.UseVisualStyleBackColor = true;
+            this.loginBtn.Click += new System.EventHandler(this.loginBtn_Click);
+            // 
             // RegisterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(900, 562);
+            this.Controls.Add(this.loginBtn);
             this.Controls.Add(this.dobBox);
             this.Controls.Add(this.addressBox);
             this.Controls.Add(this.label8);
@@ -276,5 +289,6 @@
         private System.Windows.Forms.TextBox passwordBox;
         private System.Windows.Forms.TextBox addressBox;
         private System.Windows.Forms.TextBox dobBox;
+        private System.Windows.Forms.Button loginBtn;
     }
 }

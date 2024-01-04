@@ -11,11 +11,13 @@ using System.Windows.Forms;
 
 namespace CSDLNC
 {
-    public partial class Form1 : Form
+    public partial class LoginForm : Form
     {
+        private string userID = "";
+        private string userType = "";
  
-        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=CSDLNC;Integrated Security=True");
-        public Form1()
+        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=QLPHONGKHAMNHAKHOA2;Integrated Security=True");
+        public LoginForm()
         {
             InitializeComponent();
         }
@@ -57,55 +59,44 @@ namespace CSDLNC
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show(inputLogin.Text);
-            //MessageBox.Show(inputPassword.Text);
             con.Open();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM SystemUser WHERE Username=@username", con);
-            cmd.Parameters.AddWithValue("@username", inputLogin.Text);
-            // int result = command.ExecuteNonQuery();
-            using (SqlDataReader reader = cmd.ExecuteReader())
+           
+            SqlCommand cmd = new SqlCommand("sp_checkLogin", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter typePara = new SqlParameter("@type", SqlDbType.VarChar, 5);
+            typePara.Direction = ParameterDirection.Output;
+            SqlParameter userIdPara = new SqlParameter("@id", SqlDbType.VarChar, 20);
+            userIdPara.Direction = ParameterDirection.Output;
+
+            cmd.Parameters.AddWithValue("@sdt", sdtBox.Text);
+            cmd.Parameters.AddWithValue("@pass", passBox.Text);
+            cmd.Parameters.Add(typePara);
+            cmd.Parameters.Add(userIdPara);
+            cmd.ExecuteNonQuery();
+
+            userID = userIdPara.Value.ToString();
+            userType = typePara.Value.ToString();
+
+            if(userID != "" && userType != "")
             {
-                if (!reader.Read())
-                {
-                    MessageBox.Show("Tài khoản không có trong hệ thống");
-                    
-                }
-                if ((string)reader["Password"] != inputPassword.Text)
-                {
-                    MessageBox.Show("Sai mật khẩu");
-                }
-                string loaiTaiKhoan = reader["LoaiTaiKhoan"].ToString().Trim();
-                
-                if (loaiTaiKhoan == "admin")
-                {                    
-                    QuanTriVien qtvForm = new QuanTriVien((string)reader["UserID"]);
-                    qtvForm.Show();
-                }
-                else if (loaiTaiKhoan == "staff")
-                {
-                    NhanVien nvForm = new NhanVien();
-                    nvForm.Show();
-                }
-                else if (loaiTaiKhoan == "dentist")
-                {
-                    Nhasi nsForm = new Nhasi();
-                    nsForm.Show();
-                }
-                else
-                {
-                    MessageBox.Show("Loại tài khoản không xác định!");
-                }
-
+                MessageBox.Show("Đăng nhập thành công");
             }
+            else
+            {
+                MessageBox.Show("Sai mật khẩu hoặc tài khoản");
+            }
+
+    
+
+            MessageBox.Show(userID + " " + userType);
+
             con.Close();
-
-
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            RegisterForm dangkyForm = new RegisterForm();
-            dangkyForm.Show();
+            this.Close();          
         }
 
         private void button2_Click(object sender, EventArgs e)
