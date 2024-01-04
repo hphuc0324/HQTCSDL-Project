@@ -335,6 +335,7 @@
             this.button9.TabIndex = 84;
             this.button9.Text = "Cập nhật";
             this.button9.UseVisualStyleBackColor = false;
+            this.button9.Click += new System.EventHandler(this.button9_Click_1);
             // 
             // currAddressBox
             // 
@@ -376,6 +377,7 @@
             this.currIDBox.Location = new System.Drawing.Point(439, 134);
             this.currIDBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.currIDBox.Name = "currIDBox";
+            this.currIDBox.ReadOnly = true;
             this.currIDBox.Size = new System.Drawing.Size(252, 26);
             this.currIDBox.TabIndex = 79;
             // 

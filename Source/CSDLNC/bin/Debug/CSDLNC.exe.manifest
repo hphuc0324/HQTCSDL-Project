@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CSDLNC.exe" size="636856">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CSDLNC.exe" size="637880">
       <assemblyIdentity name="CSDLNC" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>aRmOljjQEgS1luW4RFga8K0MV2bYYSThTVSi1MLvJSw=</dsig:DigestValue>
+        <dsig:DigestValue>OhQdKvgO5cLlZxXiP1jrAZFikMZcVjU7NjviYnC63gM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
