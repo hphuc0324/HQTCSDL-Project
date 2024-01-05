@@ -176,5 +176,11 @@ namespace CSDLNC
             dentistBox.Text = appointmentList.Rows[e.RowIndex].Cells["MaNSHen"].Value.ToString();
             timeBox.Text = appointmentList.Rows[e.RowIndex].Cells["ThoiGian"].Value.ToString();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            HSBA_V hsbaViewForm = new HSBA_V(this.MaBn);
+            IntermediateFunctions.openNewForm(this, hsbaViewForm);
+        }
     }
 }

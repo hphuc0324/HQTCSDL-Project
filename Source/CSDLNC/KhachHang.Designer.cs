@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KhachHang));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.reloadBtn = new System.Windows.Forms.Button();
+            this.appointmentList = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.timeBox = new System.Windows.Forms.TextBox();
@@ -65,13 +67,11 @@
             this.label29 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.appointmentList = new System.Windows.Forms.DataGridView();
-            this.reloadBtn = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.appointmentList)).BeginInit();
             this.panel1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.appointmentList)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -100,6 +100,29 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "DatLichHen";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // reloadBtn
+            // 
+            this.reloadBtn.BackColor = System.Drawing.Color.PaleGreen;
+            this.reloadBtn.Location = new System.Drawing.Point(386, 494);
+            this.reloadBtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.reloadBtn.Name = "reloadBtn";
+            this.reloadBtn.Size = new System.Drawing.Size(171, 46);
+            this.reloadBtn.TabIndex = 5;
+            this.reloadBtn.Text = "Tải lại";
+            this.reloadBtn.UseVisualStyleBackColor = false;
+            this.reloadBtn.Click += new System.EventHandler(this.reloadBtn_Click);
+            // 
+            // appointmentList
+            // 
+            this.appointmentList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.appointmentList.Location = new System.Drawing.Point(19, 72);
+            this.appointmentList.Name = "appointmentList";
+            this.appointmentList.RowHeadersWidth = 62;
+            this.appointmentList.RowTemplate.Height = 28;
+            this.appointmentList.Size = new System.Drawing.Size(538, 415);
+            this.appointmentList.TabIndex = 4;
+            this.appointmentList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.appointmentList_CellContentClick);
             // 
             // button1
             // 
@@ -298,6 +321,7 @@
             this.button2.TabIndex = 90;
             this.button2.Text = "Xem HSBA";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // currDobBox
             // 
@@ -454,29 +478,6 @@
             this.label17.TabIndex = 72;
             this.label17.Text = "Thông tin khách hàng";
             // 
-            // appointmentList
-            // 
-            this.appointmentList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.appointmentList.Location = new System.Drawing.Point(19, 72);
-            this.appointmentList.Name = "appointmentList";
-            this.appointmentList.RowHeadersWidth = 62;
-            this.appointmentList.RowTemplate.Height = 28;
-            this.appointmentList.Size = new System.Drawing.Size(538, 415);
-            this.appointmentList.TabIndex = 4;
-            this.appointmentList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.appointmentList_CellContentClick);
-            // 
-            // reloadBtn
-            // 
-            this.reloadBtn.BackColor = System.Drawing.Color.PaleGreen;
-            this.reloadBtn.Location = new System.Drawing.Point(386, 494);
-            this.reloadBtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.reloadBtn.Name = "reloadBtn";
-            this.reloadBtn.Size = new System.Drawing.Size(171, 46);
-            this.reloadBtn.TabIndex = 5;
-            this.reloadBtn.Text = "Tải lại";
-            this.reloadBtn.UseVisualStyleBackColor = false;
-            this.reloadBtn.Click += new System.EventHandler(this.reloadBtn_Click);
-            // 
             // KhachHang
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -490,11 +491,11 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.appointmentList)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.appointmentList)).EndInit();
             this.ResumeLayout(false);
 
         }

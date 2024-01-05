@@ -87,6 +87,8 @@ namespace CSDLNC
                 else
                 {
                     MessageBox.Show("Đăng ký thành công");
+                    LoginForm loginForm = new LoginForm();
+                    IntermediateFunctions.openNewForm(this, loginForm);
                 }
                 
                 con.Close();

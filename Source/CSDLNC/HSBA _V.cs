@@ -137,5 +137,16 @@ namespace CSDLNC
         {
 
         }
+
+        private void HSBA_V_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            KhachHang khachhangForm = new KhachHang(this.PatientID);
+            IntermediateFunctions.openNewForm(this, khachhangForm);
+        }
     }
 }

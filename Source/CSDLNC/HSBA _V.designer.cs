@@ -42,6 +42,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.hosoList = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.donThuocList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dichvuList)).BeginInit();
@@ -51,6 +52,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.PaleGreen;
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.donThuocList);
             this.panel1.Controls.Add(this.dichvuList);
             this.panel1.Controls.Add(this.tpDate);
@@ -177,6 +179,16 @@
             this.hosoList.TabIndex = 22;
             this.hosoList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(169, 533);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(111, 34);
+            this.button1.TabIndex = 23;
+            this.button1.Text = "Trở lại";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // HSBA_V
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -190,6 +202,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HSBA_V";
             this.Text = "HSBA";
+            this.Load += new System.EventHandler(this.HSBA_V_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.donThuocList)).EndInit();
@@ -215,5 +228,6 @@
         private System.Windows.Forms.DateTimePicker tpDate;
         private System.Windows.Forms.DataGridView donThuocList;
         private System.Windows.Forms.DataGridView dichvuList;
+        private System.Windows.Forms.Button button1;
     }
 }
