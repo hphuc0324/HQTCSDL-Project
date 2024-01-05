@@ -16,7 +16,7 @@ namespace CSDLNC
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new RegisterForm());
+            Application.Run(new HSBA());
             
         }
     }

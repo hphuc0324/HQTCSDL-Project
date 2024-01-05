@@ -199,3 +199,7 @@ C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\bin\Debug\CSDLNC.pdb
 C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.exe.manifest
 C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.application
 C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.LoginForm.resources
+C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.Dichvu.resources
+C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.DSThuoc.resources
+C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.HSBA_V.resources
+C:\Users\PC\Downloads\Source_CSDLNC\Source\CSDLNC\obj\Debug\CSDLNC.HSBA.resources

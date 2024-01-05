@@ -11,32 +11,19 @@ using System.Windows.Forms;
 
 namespace CSDLNC
 {
-    public partial class KHDT : Form
+    public partial class HSBA : Form
     {
-        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=CSDLNC;Integrated Security=True");
 
-        private string PatientID = "";
-        private string TreatmentPlanID = "";
-        private void refreshDataGrid(string tableName)
-        {
-            con.Open();
-            string query = $"SELECT * FROM {tableName} WHERE PatientID=@PatientID";
-            SqlCommand cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@PatientID", this.PatientID);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            dataGridView1.DataSource = dt;
-
-
-            con.Close();
-            addDentistCombox();
-        }
-        public KHDT(string PatientID="TP101")
+        private string patientID;
+        private string idHoso;
+       
+       
+        public HSBA(string id= "")
         {
             InitializeComponent();
-            this.PatientID = PatientID;
-            refreshDataGrid("TreatmentPlan");
+            this.patientID = id;
+            loadHoso(patientID);
+            loadPaitentCombox();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -49,181 +36,154 @@ namespace CSDLNC
 
         }
 
-        private string getName(string key, string table, string field, string returnField)
-        {
-            con.Open();
-            string value = "Invalid data";
-            string query = $"SELECT * FROM {table} WHERE {field} = @keyValue";
-            SqlCommand cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@keyValue", key);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-
-            if(dt.Rows.Count > 0)
-            {
-                 value = dt.Rows[0][returnField].ToString();
-
-            }
-           
-
-            con.Close();
-            return value;
-        }
-
-        private string getDentistName(string dentistID)
-        {
-           
-
-            return getName(dentistID, "SystemUser", "UserID", "SysUserName");
-        }
-        private string getPatientName(string patientID)
-        {
-            return getName(patientID, "PatientProfile", "PatientID", "PatientName");
-        }
+        
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridView1.CurrentRow.Selected = true;
-            this.TreatmentPlanID = dataGridView1.Rows[e.RowIndex].Cells["TreatmentPlanID"].Value.ToString();
-            this.PatientID = dataGridView1.Rows[e.RowIndex].Cells["PatientID"].Value.ToString();
-            tpPlanID.Text = this.TreatmentPlanID;
-            tpDentistID.Text = dataGridView1.Rows[e.RowIndex].Cells["DentistID"].Value.ToString();
-            tpDentistName.Text = getDentistName(dataGridView1.Rows[e.RowIndex].Cells["DentistID"].Value.ToString());
-            tpPatient.Text = getPatientName(dataGridView1.Rows[e.RowIndex].Cells["PatientID"].Value.ToString());
-            tpPaymentStatus.Text = dataGridView1.Rows[e.RowIndex].Cells["Status"].Value.ToString();
-
-            
+            hosoList.CurrentRow.Selected = true;
+            patientCombox.Text = hosoList.Rows[e.RowIndex].Cells["BNKham"].Value.ToString();
+            tpDentistName.Text = hosoList.Rows[e.RowIndex].Cells["NSKham"].Value.ToString();
+            tpDate.Text = hosoList.Rows[e.RowIndex].Cells["HSNgayKham"].Value.ToString();
+            this.idHoso = hosoList.Rows[e.RowIndex].Cells["MaHS"].Value.ToString();
+            loadDonThuoc(idHoso);
+            loadDichvu(hosoList.Rows[e.RowIndex].Cells["MaHS"].Value.ToString());
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DT treatingListForm = new DT(this.TreatmentPlanID);
-            treatingListForm.Show();
+           
         }
 
         private void addDentistCombox()
         {
-            con.Open();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Dentist", con);
-            // int result = command.ExecuteNonQuery();
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-
-                while (reader.Read())
-                {
-                    tpDentistID.Items.Add(reader["DentistID"].ToString());
-
-                }
-            }
-            con.Close();
+          
         }
 
         private void addBtn_Click(object sender, EventArgs e)
         {
-            con.Open();
-            try
-            {
-                SqlCommand cmd = new SqlCommand("INSERT INTO TreatmentPlan(TreatmentPlanID,DentistID,PatientID) VALUES(@TreatmentPlanID,@DentistID,@PatientID)", con);
-                cmd.Parameters.AddWithValue("@TreatmentPlanID", getNewID("TreatmentPlan", "TreatmentPlanID"));
-                cmd.Parameters.AddWithValue("@DentistID", tpDentistID.Text);
-                cmd.Parameters.AddWithValue("@PatientID", this.PatientID);
-              
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Thêm Kế hoạch điều trị thành công");
-                
-                con.Close();
-            }
-            catch
-            {
-                MessageBox.Show("Lỗi: Không thể thêm Kế hoạch điều trị mới");
-                con.Close();
-            }
-
-            refreshDataGrid("TreatmentPlan");
+           
+           
         }
 
-        public string getNewID(string tableName, string idField)
-        {
-            string query = $"SELECT TOP 1 * FROM {tableName} ORDER BY {idField} DESC";
-            SqlCommand cmd = new SqlCommand(query, con);
-            int result = cmd.ExecuteNonQuery();
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-                if (!reader.Read()) return "";
-
-                string currUserID = reader[idField].ToString();
-
-                int index = 0;
-                while (index < currUserID.Length && char.IsLetter(currUserID[index]))
-                {
-                    index++;
-                }
-
-                string letters = currUserID.Substring(0, index);
-
-
-                // Extract numbers (suffix)
-                string numbersString = currUserID.Substring(2);
-                int numbers = int.Parse(numbersString) + 1;
-
-                MessageBox.Show(letters + numbers);
-                return letters + numbers;
-            }
-
-        }
+        
 
         private void delBtn_Click(object sender, EventArgs e)
         {
-            deleteRow("TreatmentPlan", "TreatmentPlanID", this.TreatmentPlanID);
+            
         }
 
         private void deleteRow(string tableName, string field, string key)
         {
-            con.Open();
-            try
-            {
-                string query = $"DELETE FROM {tableName} WHERE {field} = @key";
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@key", key);
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Xóa thành công");
-                con.Close();
-            }
-            catch
-            {
-                MessageBox.Show("Lỗi: Không thể xóa");
-                con.Close();
-            }
-            refreshDataGrid("TreatmentPlan");
+            
         }
 
         private void adjustBtn_Click(object sender, EventArgs e)
         {
-            con.Open();
-
-            try
-            {
-                string query = "UPDATE TreatmentPlan SET DentistID=@DentistID,Status=@Status WHERE TreatmentPlanID=@TreatmentPlanID";
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@TreatmentPlanID", this.TreatmentPlanID);
-                cmd.Parameters.AddWithValue("@DentistID", tpDentistID.Text);
-                cmd.Parameters.AddWithValue("@Status", tpPaymentStatus.Text);
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Cập nhật thành công");
-                con.Close();
-            }
-            catch
-            {
-                MessageBox.Show("Lỗi: Cập nhật thất bại");
-                con.Close();
-            }
-
-            refreshDataGrid("TreatmentPlan");
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void findBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void loadDichvu(string idHoso)
+        {
+            IntermediateFunctions.con.Open();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM HOSO_DICHVU WHERE MaHSKham=@idHoso", IntermediateFunctions.con);
+            cmd.Parameters.AddWithValue("@idHoso", idHoso);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            dichvuList.DataSource = dt;
+
+            IntermediateFunctions.con.Close();
+        }
+
+        private void loadDonThuoc(string idHoso)
+        {
+            IntermediateFunctions.con.Open();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM HOSO_THUOC WHERE MaHSKham=@idHoso", IntermediateFunctions.con);
+            cmd.Parameters.AddWithValue("@idHoso", idHoso);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            donThuocList.DataSource = dt;
+
+            IntermediateFunctions.con.Close();
+        }
+
+        private void loadHoso(string patientID)
+        {
+            SqlCommand cmd;
+            if(patientID == "")
+            {
+                cmd = new SqlCommand("SELECT * FROM HOSO", IntermediateFunctions.con);
+            }
+            else
+            {
+                cmd = new SqlCommand("SELECT * FROM HOSO WHERE BNKham = @id", IntermediateFunctions.con);
+                cmd.Parameters.AddWithValue("@id", patientID);
+            }
+
+            IntermediateFunctions.con.Open();
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            hosoList.DataSource = dt;
+
+            IntermediateFunctions.con.Close();
+        }
+
+        private void loadPaitentCombox()
+        {
+            loadCombobox("BENHNHAN", "MaBN", patientCombox);
+
+            if(this.patientID != "")
+            {
+                patientCombox.Text = patientID;
+            }
+        }
+
+        private void loadCombobox(string table, string field, ComboBox combox)
+        {
+            IntermediateFunctions.con.Open();
+            SqlCommand cmd = new SqlCommand($"SELECT * FROM {table}", IntermediateFunctions.con);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+
+                while (reader.Read())
+                {
+                    combox.Items.Add(reader[field].ToString());
+
+                }
+            }
+
+            IntermediateFunctions.con.Close();
+        }
+
+        private void filterBtn_Click(object sender, EventArgs e)
+        {
+            loadHoso(patientCombox.Text);
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Dichvu dichVuForm = new Dichvu(idHoso);
+            IntermediateFunctions.openNewForm(this, dichVuForm);
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            DSThuoc dsThuocForm = new DSThuoc(idHoso);
+            IntermediateFunctions.openNewForm(this, dsThuocForm);
         }
     }
 }

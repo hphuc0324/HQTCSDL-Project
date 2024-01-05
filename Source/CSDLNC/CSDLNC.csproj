@@ -92,6 +92,30 @@
     <Compile Include="Dang ky.Designer.cs">
       <DependentUpon>Dang ky.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dichvu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dichvu.designer.cs">
+      <DependentUpon>Dichvu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DSThuoc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DSThuoc.designer.cs">
+      <DependentUpon>DSThuoc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HSBA _V.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HSBA _V.designer.cs">
+      <DependentUpon>HSBA _V.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HSBA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HSBA.designer.cs">
+      <DependentUpon>HSBA.cs</DependentUpon>
+    </Compile>
     <Compile Include="IntermediateFunctions.cs" />
     <Compile Include="KhachHang.cs">
       <SubType>Form</SubType>
@@ -102,7 +126,7 @@
     <Compile Include="NhanVien.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NhanVien.Designer.cs">
+    <Compile Include="NhanVien.designer.cs">
       <DependentUpon>NhanVien.cs</DependentUpon>
     </Compile>
     <Compile Include="Nhasi.cs">
@@ -127,6 +151,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dang nhap.resx">
       <DependentUpon>Dang nhap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dichvu.resx">
+      <DependentUpon>Dichvu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DSThuoc.resx">
+      <DependentUpon>DSThuoc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HSBA _V.resx">
+      <DependentUpon>HSBA _V.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HSBA.resx">
+      <DependentUpon>HSBA.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KhachHang.resx">
       <DependentUpon>KhachHang.cs</DependentUpon>

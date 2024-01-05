@@ -58,6 +58,75 @@ END
 GO
 
 
+---Them dich vu vao ho so
+CREATE OR ALTER PROCEDURE sp_addTreating
+@maHS varchar(20), @maDV varchar(20)
+AS
+BEGIN
+	IF(EXISTS(SELECT * FROM HOSO_DICHVU WHERE MaHSKham = @maHS AND MaDVSuDung = @maDV))
+		RETURN
+	ELSE
+	BEGIN
+		INSERT INTO HOSO_DICHVU
+		VALUES(@maHS, @maDV)
+	END	
+END
+GO
+
+--Xoa dich vu khoi ho so
+CREATE OR ALTER PROCEDURE sp_delTreating
+@maHS varchar(20), @maDV varchar(20)
+AS 
+BEGIN
+	IF(NOT EXISTS(SELECT * FROM HOSO_DICHVU WHERE MaHSKham = @maHS AND MaDVSuDung = @maDV))
+		RETURN
+	ELSE
+		DELETE FROM HOSO_DICHVU WHERE MaHSKham = @maHS AND MaDVSuDung = @maDV
+END
+GO
+
+--Them don thuoc
+CREATE OR ALTER PROCEDURE sp_addTreatingMed
+@maHS varchar(20), @maThuoc varchar(20), @soluong INT
+AS 
+BEGIN
+	IF(EXISTS(SELECT * FROM HOSO_THUOC WHERE MaHSKham = @maHS AND MaThuocChiDinh = @maThuoc))
+		RETURN
+	ELSE
+	INSERT INTO HOSO_THUOC
+	VALUES
+	(@maHS, @maThuoc, @soluong)
+END
+GO
+
+--Update don thuoc
+CREATE OR ALTER PROCEDURE sp_updateTreatingMed
+@maHS varchar(20), @maThuoc varchar(20), @soluong INT
+AS 
+BEGIN
+	IF(NOT EXISTS(SELECT * FROM HOSO_THUOC WHERE MaHSKham = @maHS AND MaThuocChiDinh = @maThuoc))
+		RETURN
+	ELSE
+	UPDATE HOSO_THUOC SET SoLuong = @soluong WHERE MaHSKham = @maHS AND MaThuocChiDinh = @maThuoc
+END
+GO
+
+
+--Xoa don thuoc
+CREATE OR ALTER PROCEDURE sp_delTreatingMed
+@maHS varchar(20), @maThuoc varchar(20)
+AS 
+BEGIN
+	IF(NOT EXISTS(SELECT * FROM HOSO_THUOC WHERE MaHSKham = @maHS AND MaThuocChiDinh = @maThuoc))
+		RETURN
+	ELSE
+	DELETE FROM HOSO_THUOC WHERE MaHSKham = @maHS AND MaThuocChiDinh = @maThuoc 
+END
+GO
+
+
+
+
 
 
 

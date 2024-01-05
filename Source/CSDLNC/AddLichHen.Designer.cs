@@ -34,7 +34,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.patientCombox = new System.Windows.Forms.ComboBox();
-            this.appointTimeBox = new System.Windows.Forms.DateTimePicker();
             this.addBtn = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.calList = new System.Windows.Forms.DataGridView();
@@ -42,6 +41,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.allBtn = new System.Windows.Forms.Button();
             this.dentistCombox = new System.Windows.Forms.ComboBox();
+            this.appointTimeBox = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.calList)).BeginInit();
             this.SuspendLayout();
@@ -79,8 +79,8 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.PaleGreen;
-            this.panel1.Controls.Add(this.patientCombox);
             this.panel1.Controls.Add(this.appointTimeBox);
+            this.panel1.Controls.Add(this.patientCombox);
             this.panel1.Controls.Add(this.addBtn);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label1);
@@ -98,14 +98,6 @@
             this.patientCombox.Name = "patientCombox";
             this.patientCombox.Size = new System.Drawing.Size(146, 28);
             this.patientCombox.TabIndex = 20;
-            // 
-            // appointTimeBox
-            // 
-            this.appointTimeBox.Location = new System.Drawing.Point(521, 112);
-            this.appointTimeBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.appointTimeBox.Name = "appointTimeBox";
-            this.appointTimeBox.Size = new System.Drawing.Size(224, 26);
-            this.appointTimeBox.TabIndex = 19;
             // 
             // addBtn
             // 
@@ -180,6 +172,13 @@
             this.dentistCombox.Size = new System.Drawing.Size(162, 28);
             this.dentistCombox.TabIndex = 22;
             // 
+            // appointTimeBox
+            // 
+            this.appointTimeBox.Location = new System.Drawing.Point(504, 112);
+            this.appointTimeBox.Name = "appointTimeBox";
+            this.appointTimeBox.Size = new System.Drawing.Size(250, 26);
+            this.appointTimeBox.TabIndex = 21;
+            // 
             // AddLichHen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -213,11 +212,11 @@
         private System.Windows.Forms.Button filterBtn;
         private System.Windows.Forms.Button addBtn;
         private System.Windows.Forms.DataGridView calList;
-        private System.Windows.Forms.DateTimePicker appointTimeBox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button allBtn;
         private System.Windows.Forms.ComboBox patientCombox;
         private System.Windows.Forms.ComboBox dentistCombox;
+        private System.Windows.Forms.TextBox appointTimeBox;
     }
 }

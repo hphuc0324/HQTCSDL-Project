@@ -29,8 +29,29 @@ namespace CSDLNC
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
             
+            SqlCommand cmd = new SqlCommand("sp_addAppoint", IntermediateFunctions.con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@maLH", IntermediateFunctions.getNewID("LICHHEN", "MaLichHen"));
+            cmd.Parameters.AddWithValue("@maBN", patientCombox.Text);
+            cmd.Parameters.AddWithValue("@maNS", dentistCombox.Text);
+
+            DateTime dateValue = DateTime.Parse(appointTimeBox.Text);
+            cmd.Parameters.AddWithValue("@time", dateValue);
+            IntermediateFunctions.con.Open();
+
+            int rows = cmd.ExecuteNonQuery();
+
+            if(rows <= 0)
+            {
+                MessageBox.Show("Lỗi: Không thể thêm lịch hẹn");
+            }
+            else
+            {
+                MessageBox.Show("Thêm lịch hẹn thành công");
+            }
+
+            IntermediateFunctions.con.Close();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -49,7 +70,7 @@ namespace CSDLNC
 
                 while (reader.Read())
                 {
-                    patientCombox.Items.Add(reader[field].ToString());
+                    combox.Items.Add(reader[field].ToString());
 
                 }
             }
@@ -111,11 +132,11 @@ namespace CSDLNC
 
             if(dentistID == "")
             {
-                cmd = new SqlCommand("SELECT * FROM LICHLAMVIEC");
+                cmd = new SqlCommand("SELECT * FROM LICHLAMVIEC", IntermediateFunctions.con);
             }
             else
             {
-                cmd = new SqlCommand("SELECT * FROM LICHLAMVIEC WHERE MaNSLich=@dentistID");
+                cmd = new SqlCommand("SELECT * FROM LICHLAMVIEC WHERE MaNSLich=@dentistID", IntermediateFunctions.con);
                 cmd.Parameters.AddWithValue("@dentistID", dentistID);
             }
 
@@ -125,6 +146,7 @@ namespace CSDLNC
             calList.DataSource = dt;
 
             IntermediateFunctions.con.Close();
+            loadCalendar();
         }
 
         private void allBtn_Click(object sender, EventArgs e)

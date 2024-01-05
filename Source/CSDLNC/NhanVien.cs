@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,33 +17,108 @@ namespace CSDLNC
 {
     public partial class NhanVien : Form
     {
-        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=CSDLNC;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=QLPHONGKHAMNHAKHOA2;Integrated Security=True");
         private string currNVID = "";
         private string PatientIDSelected = "";
         private string DentistIDSelected = "";
-        private string AppointmentIDSelected = "";
+        private string HoSoIDSelected = "";
         private string StaffIDSelected = "";
         private void refreshDataGrid(string tableName)
         {
-           
+            con.Open();
+            string query = $"SELECT * FROM {tableName}";
+            SqlCommand cmd = new SqlCommand(query, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
 
 
+            if (tableName == "LICHHEN")
+            {
+                query = $"SELECT * FROM LICHHEN LH JOIN BENHNHAN BN ON LH.MaBNHen=BN.MaBN JOIN NHASI NS ON NS.MaNS=LH.MaNSHen";
+                cmd = new SqlCommand(query, con);
+                da = new SqlDataAdapter(cmd);
+                dt = new DataTable();
+                da.Fill(dt);
+                dataGridView1.DataSource = dt;
+            }
+            else if (tableName == "HOSO")
+            {
+                query = $"SELECT MaHS,HSNgayKham,BNHoten,BNSdt,NSHoten\r\nFROM HOSO HS JOIN BENHNHAN BN ON BN.MaBN=HS.BNKham\r\nJOIN NHASI NS ON NS.MaNS=HS.NSKham";
+                cmd = new SqlCommand(query, con);
+                da = new SqlDataAdapter(cmd);
+                dt = new DataTable();
+                da.Fill(dt);
+                dataGridView2.DataSource = dt;
+            }
+            else if (tableName == "HOSO_DICHVU")
+            {
+                query = $"SELECT TenDV,PhiDichVu\r\nFROM HOSO HS JOIN HOSO_DICHVU HSDV ON HS.MaHS=HSDV.MaHSKham\r\nJOIN DICHVU DV ON DV.MaDV=HSDV.MaDVSuDung WHERE HS.MaHS=@MaHS";
+                cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@MaHS", this.HoSoIDSelected);
+                da = new SqlDataAdapter(cmd);
+                dt = new DataTable();
+                da.Fill(dt);
+                dataGridView3.DataSource = dt;
+
+                tongPhiDV.Text = getTongPhiDV();
+            }
+            else if(tableName== "HOSO_THUOC")
+            {
+                query = $"SELECT TenThuoc,DonViTinh,ChiDinh,NgayHetHan\r\nFROM HOSO HS JOIN HOSO_THUOC HST ON HS.MaHS=HST.MaHSKham\r\nJOIN THUOC T ON T.MaThuoc=HST.MaThuocChiDinh";
+                cmd = new SqlCommand(query, con);
+                da = new SqlDataAdapter(cmd);
+                dt = new DataTable();
+                da.Fill(dt);
+                dataGridView4.DataSource = dt;
+                tongPhiThuoc.Text = "0";
+            }
+            
+
+            con.Close();
+        }
+        private string getTongPhiDV()
+        {        
+            
+
+            try
+            {
+                // Call the sp_GetSumPhiDichVu stored procedure
+                using (SqlCommand cmd = new SqlCommand("sp_GetSumPhiDichVu", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@MaHS", this.HoSoIDSelected);
+
+                    // Define output parameter
+                    SqlParameter sumPhiDichVuParam = new SqlParameter("@SumPhiDichVu", SqlDbType.Int);
+                    sumPhiDichVuParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(sumPhiDichVuParam);
+
+                    // Execute the stored procedure
+                    cmd.ExecuteNonQuery();
+
+                    // Retrieve the output parameter value
+                    int sumPhiDichVu = (int)sumPhiDichVuParam.Value;
+                    return sumPhiDichVu.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return "";
+            }
             
         }
-        private void intializeTTCaNhanTab()
-        {
-            
 
-        }
+
         public NhanVien(string currNVID = "US101") // Nho doi cai nay
         {
             InitializeComponent();
-            refreshDataGrid("PatientProfile");
-            refreshDataGrid("Dentist");
-            refreshDataGrid("Appointment");
-            refreshDataGrid("Staff");
+            refreshDataGrid("LICHHEN");
+            refreshDataGrid("HOSO");
+
             this.currNVID = currNVID;
-            intializeTTCaNhanTab();
+            
         }
         public string getNewID(string tableName, string idField)
         {
@@ -72,40 +148,7 @@ namespace CSDLNC
             }
 
         }
-        private void deleteRow(string tableName, string idField)
-        {
-            con.Open();
-            string id = "";
-            if (tableName == "PatientProfile")
-                id = this.PatientIDSelected;
-            else if (tableName == "Dentist")
-            {
-                id = this.DentistIDSelected;
-                tableName = "SystemUser";
-                idField = "UserID";
-            }
-            else if (tableName == "Staff")
-            {
-                id = this.StaffIDSelected;
-                tableName = "SystemUser";
-                idField = "UserID";
-            }
-
-            try
-            {
-                string query = $"DELETE {tableName} WHERE {idField}=@id";
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@id", id);
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Xóa thành công");
-                con.Close();
-            }
-            catch
-            {
-                MessageBox.Show("Lỗi: Không thể xóa");
-                con.Close();
-            }
-        }
+       
         private void label31_Click(object sender, EventArgs e)
         {
 
@@ -123,7 +166,7 @@ namespace CSDLNC
 
         private void button13_Click(object sender, EventArgs e)
         {
-           
+            
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -133,15 +176,12 @@ namespace CSDLNC
 
         private void button11_Click(object sender, EventArgs e)
         {
-            deleteRow("PatientProfile", "PatientID");
-            refreshDataGrid("PatientProfile");
+            
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
             
-
-          
         }
 
         private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -151,7 +191,7 @@ namespace CSDLNC
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-           
+            
         }
 
         private void textBox29_TextChanged(object sender, EventArgs e)
@@ -166,7 +206,7 @@ namespace CSDLNC
 
         private void button10_Click(object sender, EventArgs e)
         {
-            this.Close();
+            
         }
 
         private void dataGridView4_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -188,62 +228,27 @@ namespace CSDLNC
 
         private void dataGridView6_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridView6.CurrentRow.Selected = true;
-            apDateBox.Text = dataGridView6.Rows[e.RowIndex].Cells["AppointmentDate"].Value.ToString();
-            apStatusBox.Text = dataGridView6.Rows[e.RowIndex].Cells["Status"].Value.ToString();
-            apRoomBox.Text = dataGridView6.Rows[e.RowIndex].Cells["RoomID"].Value.ToString();
-            apDentistBox.Text = dataGridView6.Rows[e.RowIndex].Cells["DentistID"].Value.ToString();
-            apPatientBox.Text = dataGridView6.Rows[e.RowIndex].Cells["PatientID"].Value.ToString();
-
-            AppointmentIDSelected = dataGridView6.Rows[e.RowIndex].Cells["AppointmentID"].Value.ToString();
-
+            
         }
 
         private void button4_Click_1(object sender, EventArgs e)
         {
-            deleteRow("Appointment", "AppointmentID");
-            refreshDataGrid("Appointment");
+            
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            con.Open();
-
-            try
-            {
-                using (SqlCommand cmd = new SqlCommand("sp_UpdateAppointment", con))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@AppointmentID", this.AppointmentIDSelected);
-                    cmd.Parameters.AddWithValue("@Status", apStatusBox.Text);
-                    cmd.Parameters.AddWithValue("@RoomID", apRoomBox.Text);
-                    cmd.Parameters.AddWithValue("@DentistID", apDentistBox.Text);
-                    cmd.Parameters.AddWithValue("@PatientID", apPatientBox.Text);
-
-                    cmd.ExecuteNonQuery();
-
-                    MessageBox.Show("Sửa thông tin thành công");
-                    refreshDataGrid("Appointment");
-                }
-
-                con.Close();
-            }
-            catch
-            {
-                MessageBox.Show("Lỗi: Không thể sửa thông tin");
-                con.Close();
-            }
+            
         }
 
         private void dataGridView4_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
-           
+            
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            
+            MessageBox.Show(fromDate.Text);
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -253,7 +258,38 @@ namespace CSDLNC
 
         private void button5_Click_1(object sender, EventArgs e)
         {
-            
+            DateTime from = fromDate.Value;
+            DateTime to = toDate.Value;
+            if (from > to)
+            {
+                MessageBox.Show("Thời gian không hợp lệ");
+                return;
+            }
+
+            try
+            {
+                con.Open();
+
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM TreatmentPlan TP JOIN Treatment_TreatmentPlan TTP ON TP.TreatmentPlanID = TTP.TreatmentPlanID WHERE TP.DentistID = @DentistID AND @fromDate <= TTP.TreatingDate AND TTP.TreatingDate <= @toDate;", con))
+                {
+                    cmd.Parameters.AddWithValue("@DentistID", DentistIDSelected);
+                    cmd.Parameters.AddWithValue("@fromDate", from);
+                    cmd.Parameters.AddWithValue("@toDate", to);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dataGridView7.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: Unable to retrieve treatment plans\n" + ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
         }
 
         private void dataGridView5_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -262,24 +298,108 @@ namespace CSDLNC
 
         private void button6_Click(object sender, EventArgs e)
         {
-         
+            DateTime from = from2.Value;
+            DateTime to = to2.Value;
+            if (from > to)
+            {
+                MessageBox.Show("Thời gian không hợp lệ");
+                return;
+            }
 
-          
+            try
+            {
+                con.Open();
+
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM Appointment WHERE DentistID=@DentistID AND @fromDate <= AppointmentDate AND AppointmentDate <= @toDate;", con))
+                {
+                    cmd.Parameters.AddWithValue("@DentistID", DentistIDSelected);
+                    cmd.Parameters.AddWithValue("@fromDate", from);
+                    cmd.Parameters.AddWithValue("@toDate", to);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dataGridView8.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: Unable to retrieve treatment plans\n" + ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
         }
 
         private void button15_Click(object sender, EventArgs e)
         {
-           
+            
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-           
+            
         }
 
         private void tabPage2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form addLichHen = new AddLichHen();
+            IntermediateFunctions.openNewForm(this, addLichHen);
+        }
+
+        private void pPhoneBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label20_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridView1.CurrentRow.Selected = true;
+            textBox1.Text = dataGridView1.Rows[e.RowIndex].Cells["BNHoten"].Value.ToString();
+            textBox2.Text = dataGridView1.Rows[e.RowIndex].Cells["BNSdt"].Value.ToString();
+            textBox3.Text = dataGridView1.Rows[e.RowIndex].Cells["BNNgaysinh"].Value.ToString();
+            textBox4.Text = dataGridView1.Rows[e.RowIndex].Cells["BNDiachi"].Value.ToString();
+            textBox5.Text = dataGridView1.Rows[e.RowIndex].Cells["NSHoten"].Value.ToString();
+            textBox6.Text = dataGridView1.Rows[e.RowIndex].Cells["ThoiGian"].Value.ToString();
+
+        }
+
+        private void dataGridView2_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridView2.CurrentRow.Selected = true;
+            pNameBox.Text = dataGridView2.Rows[e.RowIndex].Cells["BNHoten"].Value.ToString();
+            textBox8.Text = dataGridView2.Rows[e.RowIndex].Cells["NSHoten"].Value.ToString();
+
+            this.HoSoIDSelected = dataGridView2.Rows[e.RowIndex].Cells["MaHS"].Value.ToString();
+            refreshDataGrid("HOSO_DICHVU");
+            refreshDataGrid("HOSO_THUOC");
+
+            int tongHD = int.Parse(tongPhiDV.Text) + int.Parse(tongPhiThuoc.Text);
+            tongHoaDon.Text = tongHD.ToString();
+        }
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+            string query = $"SELECT MaHS,HSNgayKham,BNHoten,BNSdt,NSHoten\r\nFROM HOSO HS JOIN BENHNHAN BN ON BN.MaBN=HS.BNKham\r\nJOIN NHASI NS ON NS.MaNS=HS.NSKham";
+            SqlCommand cmd = new SqlCommand(query, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            DataView dv = dt.DefaultView;
+            dv.RowFilter = "BNSdt LIKE '" + textBox7.Text + "%'";
+            dataGridView2.DataSource = dv;
         }
     }
 }
